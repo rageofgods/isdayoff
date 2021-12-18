@@ -37,13 +37,6 @@ go get -u github.com/rageofgods/isdayoff
 package main
 
 import (
-	"fmt"
-	"github.com/rageofgods/isdayoff"
-)
-
-package main
-
-import (
 "fmt"
 "github.com/rageofgods/isdayoff"
 "time"
