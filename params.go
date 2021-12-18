@@ -51,3 +51,10 @@ const (
 	// ErrorCodeInternalError internal error
 	ErrorCodeInternalError ErrorCode = "199"
 )
+
+const (
+	// PkgRepoUrl HTTP Client header repo URL. Original https://github.com/anatoliyfedorenko
+	PkgRepoUrl    = "https://github.com/rageofgods"
+	PkgLibName    = "isdayoff-golang-lib"
+	PkgLibVersion = "1.0.3"
+)
