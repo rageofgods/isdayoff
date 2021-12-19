@@ -67,12 +67,8 @@ type Params struct {
 
 type ParamsRange struct {
 	Params
-	AfterYear   *int
-	AfterMonth  *time.Month
-	AfterDay    *int
-	BeforeYear  *int
-	BeforeMonth *time.Month
-	BeforeDay   *int
+	StartDate *string
+	EndDate   *string
 }
 
 // GetBy Get data by particular params
@@ -138,39 +134,13 @@ func (c *Client) GetBy(params Params) ([]DayType, error) {
 
 // GetByRange Get data by particular params with date range provided
 func (c *Client) GetByRange(params ParamsRange) ([]DayType, error) {
-	if params.AfterYear == nil ||
-		params.AfterMonth == nil ||
-		params.AfterDay == nil ||
-		params.BeforeYear == nil ||
-		params.BeforeMonth == nil ||
-		params.BeforeDay == nil {
+	if params.StartDate == nil ||
+		params.EndDate == nil {
 		return nil, fmt.Errorf("need to define all of ParamsRange{} values")
 	}
 
-	url := fmt.Sprintf("https://isdayoff.ru/api/getdata?date1=%d", *params.AfterYear)
-	// ugly. change it later :)
-	if *params.AfterMonth < 10 {
-		url += fmt.Sprintf("0%d", *params.AfterMonth)
-	} else {
-		url += fmt.Sprintf("%d", *params.AfterMonth)
-	}
-	if *params.AfterDay < 10 {
-		url += fmt.Sprintf("0%d", *params.AfterDay)
-	} else {
-		url += fmt.Sprintf("%d", *params.AfterDay)
-	}
-
-	url += fmt.Sprintf("&date2=%d", *params.BeforeYear)
-	if *params.BeforeMonth < 10 {
-		url += fmt.Sprintf("0%d", *params.BeforeMonth)
-	} else {
-		url += fmt.Sprintf("%d", *params.BeforeMonth)
-	}
-	if *params.BeforeDay < 10 {
-		url += fmt.Sprintf("0%d", *params.BeforeDay)
-	} else {
-		url += fmt.Sprintf("%d", *params.BeforeDay)
-	}
+	url := fmt.Sprintf("https://isdayoff.ru/api/getdata?date1=%s", *params.StartDate)
+	url += fmt.Sprintf("&date2=%s", *params.EndDate)
 
 	if params.CountryCode != nil {
 		url += fmt.Sprintf("&cc=%v", *params.CountryCode)
