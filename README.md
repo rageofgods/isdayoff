@@ -47,19 +47,12 @@ func main() {
 	countryCode := isdayoff.CountryCodeRussia
 	pre := false
 	covid := false
-	tn := time.Now()
-	ay, by := tn.Year()
-	am, bm := tn.Month()
-	ad := tn.Day()
-	bd := tn.AddDate(0, 0, 10).Day()
+	sd := "20210101"
+	ed := "20210115"
 	day, err := dayOff.GetByRange(isdayoff.ParamsRange{
-		AfterYear: &ay,
-		AfterMonth: &am,
-		AfterDay: &ad,
-		BeforeYear: &by,
-		BeforeMonth: &bm,
-		BeforeDay: &bd,
-		Params: isdayoff.Params{
+		StartDate: &sd,
+		EndDate:   &ed,
+		Params: Params{
 			CountryCode: &countryCode,
 			Pre:         &pre,
 			Covid:       &covid,

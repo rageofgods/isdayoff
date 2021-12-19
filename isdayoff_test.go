@@ -21,20 +21,12 @@ func TestGetByRange(t *testing.T) {
 	countryCode := CountryCodeRussia
 	pre := false
 	covid := false
-	ay := 2021
-	am := time.January
-	ad := 1
-	by := 2021
-	bm := time.January
-	bd := 15
+	sd := "20210101"
+	ed := "20210115"
 
 	day, err := client.GetByRange(ParamsRange{
-		AfterYear:   &ay,
-		AfterMonth:  &am,
-		AfterDay:    &ad,
-		BeforeYear:  &by,
-		BeforeMonth: &bm,
-		BeforeDay:   &bd,
+		StartDate: &sd,
+		EndDate:   &ed,
 		Params: Params{
 			CountryCode: &countryCode,
 			Pre:         &pre,
@@ -44,12 +36,21 @@ func TestGetByRange(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if len(day) < bd {
+
+	const shortForm = "20060102"
+	tm, err := time.Parse(shortForm, ed)
+	if err != nil {
+		t.Errorf("error in date parse: %v", err)
+	}
+
+	if len(day) < tm.Day() {
 		t.Errorf("should be 15, equal: %v", len(day))
 	}
+
 	if day[0] != DayTypeNonWorking {
 		t.Errorf("should be 1, equal: %v", day[0])
 	}
+
 	if day[14] != DayTypeWorking {
 		t.Errorf("should be 0, equal: %v", day[14])
 	}
